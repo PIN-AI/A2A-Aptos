@@ -1,3 +1,4 @@
+
 # A2A-Aptos: Blockchain-Powered Agent Collaboration Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -20,6 +21,46 @@ A2A-Aptos is a groundbreaking agent collaboration platform that deeply integrate
 - 🔄 **Standardized Protocol**: Fully compatible with Google A2A specifications, supporting seamless Agent integration
 - 💰 **Value Incentives**: On-chain task bounty and automatic settlement mechanisms
 - 🌐 **Ecosystem Expansion**: Plugin-based Agent architecture supporting multi-domain applications
+
+---
+
+## 🎬 System Demonstrations
+
+### Demo Videos
+
+
+#### 1. Host Agent + Food Agent Interaction Demo
+
+
+https://github.com/user-attachments/assets/4b3e7b8f-101d-4265-ab40-5471db140643
+
+
+
+**Demo Highlights:**
+- User initiates food ordering request
+- Host Agent creates blockchain task
+- Food Agent verifies signature and blockchain confirmation
+- Completes order processing and blockchain task confirmation
+- Real-time task status updates
+
+#### 2. Host Agent + Uber Agent Interaction Demo
+
+https://github.com/user-attachments/assets/02f0d3fb-b3b3-48a0-98b8-75ccd4b0d9c7
+
+
+**Demo Highlights:**
+- Ride-hailing service request processing
+- Intelligent task routing decisions
+- Ed25519 signature verification process
+- Blockchain task lifecycle management
+- Error handling and graceful degradation
+
+### Technical Highlight Showcase
+
+- ✅ **Millisecond Blockchain Confirmation**: High-performance advantages of Aptos network
+- ✅ **Zero Trust Architecture**: Every interaction has cryptographic verification
+- ✅ **Plugin Extensibility**: Rapid integration of new Agent types
+- ✅ **Complete Traceability**: All critical operations are verifiable on-chain
 
 ---
 
@@ -222,42 +263,6 @@ export APTOS_MODULE_ADDRESS="0x..."
 - **Host Agent UI**: http://localhost:8080
 - **Food Agent API**: http://localhost:10003
 - **Agent Cards**: http://localhost:10003/.well-known/agent.json
-
----
-
-## 🎬 System Demonstrations
-
-### Demo Videos
-
-> **Note**: Actual demonstration videos will be inserted at the following locations
-
-#### 1. Host Agent + Food Agent Interaction Demo
-*[Insert complete Host Agent and Food Agent interaction flow video here]*
-
-**Demo Highlights:**
-- User initiates food ordering request
-- Host Agent creates blockchain task
-- Food Agent verifies signature and blockchain confirmation
-- Completes order processing and blockchain task confirmation
-- Real-time task status updates
-
-#### 2. Host Agent + Uber Agent Interaction Demo
-*[Insert complete Host Agent and Uber Agent interaction flow video here]*
-
-**Demo Highlights:**
-- Ride-hailing service request processing
-- Intelligent task routing decisions
-- Ed25519 signature verification process
-- Blockchain task lifecycle management
-- Error handling and graceful degradation
-
-### Technical Highlight Showcase
-
-- ✅ **Millisecond Blockchain Confirmation**: High-performance advantages of Aptos network
-- ✅ **Zero Trust Architecture**: Every interaction has cryptographic verification
-- ✅ **Plugin Extensibility**: Rapid integration of new Agent types
-- ✅ **Complete Traceability**: All critical operations are verifiable on-chain
-
 
 ---
 
