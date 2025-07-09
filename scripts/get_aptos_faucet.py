@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""自动获取 Aptos devnet 测试币的脚本"""
+"""Auto get Aptos devnet test coins"""
 
 import asyncio
 import os
@@ -9,24 +9,24 @@ import json
 import time
 from typing import Optional
 
-# 添加项目路径
+# Add project path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../samples/python'))
 
 from common.aptos_config import AptosConfig
 
 async def request_faucet_funds(address: str, amount: int = 100_000_000) -> bool:
-    """请求 Aptos devnet faucet 资金
+    """Request Aptos devnet faucet funds
     
     Args:
-        address: Aptos 地址
-        amount: 请求的金额 (单位: octas，默认 1 APT = 100_000_000 octas)
+        address: Aptos address
+        amount: Request amount (unit: octas, default 1 APT = 100_000_000 octas)
         
     Returns:
-        bool: 是否成功
+        bool: Whether the request is successful
     """
     faucet_url = "https://faucet.devnet.aptoslabs.com"
     
-    print(f"正在为地址 {address} 请求 {amount / 100_000_000} APT...")
+    print(f"Requesting {amount / 100_000_000} APT for address {address}...")
     
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
@@ -41,57 +41,57 @@ async def request_faucet_funds(address: str, amount: int = 100_000_000) -> bool:
             if response.status_code == 200:
                 try:
                     result = response.json()
-                    # 处理不同的响应格式
+                    # Handle different response formats
                     if isinstance(result, list) and len(result) > 0:
-                        # 响应是数组格式
+                        # Response is an array
                         tx_hash = result[0] if result else "N/A"
-                        print(f"✅ 成功获取测试币！交易哈希: {tx_hash}")
+                        print(f"✅ Successfully got test coins! Transaction hash: {tx_hash}")
                     elif isinstance(result, dict):
-                        # 响应是对象格式
+                        # Response is an object
                         tx_hash = result.get('hash', result.get('txHash', 'N/A'))
-                        print(f"✅ 成功获取测试币！交易哈希: {tx_hash}")
+                        print(f"✅ Successfully got test coins! Transaction hash: {tx_hash}")
                     else:
-                        # 其他格式
-                        print(f"✅ 成功获取测试币！响应: {result}")
+                        # Other formats
+                        print(f"✅ Successfully got test coins! Response: {result}")
                     return True
                 except json.JSONDecodeError:
-                    # 如果不是JSON，但状态码是200，也认为成功
-                    print(f"✅ 成功获取测试币！响应: {response.text}")
+                    # If not JSON, but status code is 200, also consider it successful
+                    print(f"✅ Successfully got test coins! Response: {response.text}")
                     return True
             else:
-                print(f"❌ 请求失败: {response.status_code} - {response.text}")
+                print(f"❌ Request failed: {response.status_code} - {response.text}")
                 return False
                 
     except Exception as e:
-        print(f"❌ 请求异常: {e}")
+        print(f"❌ Request exception: {e}")
         return False
 
 async def check_balance_and_request_if_needed(private_key: str, min_balance: int = 10_000_000) -> bool:
-    """检查余额，如果不足则自动请求测试币
+    """Check balance, if insufficient, automatically request test coins
     
     Args:
-        private_key: Aptos 私钥
-        min_balance: 最小余额要求 (单位: octas)
+        private_key: Aptos private key
+        min_balance: Minimum balance requirement (unit: octas)
         
     Returns:
-        bool: 是否有足够余额
+        bool: Whether there is enough balance
     """
     try:
         config = AptosConfig(private_key=private_key)
         
         if not config.address:
-            print("❌ 无法从私钥生成地址")
+            print("❌ Unable to generate address from private key")
             return False
             
         address = str(config.address)
         print(f"Check balance of address {address}...")
         
-        # 检查网络连接
+        # Check network connection
         if not await config.is_connected():
-            print("❌ 无法连接到 Aptos 网络")
+            print("❌ Unable to connect to Aptos network")
             return False
         
-        # 获取当前余额
+        # Get current balance
         try:
             current_balance = await config.get_account_balance()
             print(f"Current balance: {current_balance / 100_000_000} APT ({current_balance} octas)")
@@ -102,50 +102,50 @@ async def check_balance_and_request_if_needed(private_key: str, min_balance: int
             else:
                 print(f"⚠️ Balance is insufficient (< {min_balance / 100_000_000} APT), requesting test coins...")
                 
-                # 请求测试币
+                # Request test coins
                 success = await request_faucet_funds(address)
                 
                 if success:
-                    # 等待几秒让交易确认
-                    print("等待交易确认...")
+                    # Wait for a few seconds to confirm the transaction
+                    print("Waiting for transaction confirmation...")
                     await asyncio.sleep(5)
                     
-                    # 重新检查余额
+                    # Re-check balance
                     new_balance = await config.get_account_balance()
-                    print(f"新余额: {new_balance / 100_000_000} APT ({new_balance} octas)")
+                    print(f"New balance: {new_balance / 100_000_000} APT ({new_balance} octas)")
                     
                     return new_balance >= min_balance
                 else:
                     return False
                     
         except Exception as e:
-            print(f"⚠️ 获取余额失败: {e}")
-            print("尝试直接请求测试币...")
+            print(f"⚠️ Failed to get balance: {e}")
+            print("Trying to request test coins directly...")
             return await request_faucet_funds(address)
             
     except Exception as e:
-        print(f"❌ 配置错误: {e}")
+        print(f"❌ Configuration error: {e}")
         return False
 
 async def main():
-    """主函数"""
-    print("Aptos Devnet 测试币自动获取工具")
+    """Main function"""
+    print("Aptos Devnet test coins auto-request tool")
     print("=" * 50)
     
-    # 从环境变量或命令行参数获取私钥
+    # Get private key from environment variable or command line argument
     private_key = os.environ.get('APTOS_PRIVATE_KEY')
     
     if len(sys.argv) > 1:
         private_key = sys.argv[1]
     
     if not private_key:
-        print("❌ 请提供 Aptos 私钥")
-        print("用法:")
+        print("❌ Please provide Aptos private key")
+        print("Usage:")
         print("  python get_aptos_faucet.py <private_key>")
-        print("  或设置环境变量 APTOS_PRIVATE_KEY")
+        print("  or set environment variable APTOS_PRIVATE_KEY")
         return False
     
-    # 移除0x前缀（如果存在）
+    # Remove 0x prefix (if exists)
     if private_key.startswith('0x'):
         private_key = private_key[2:]
     
