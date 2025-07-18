@@ -1,0 +1,16 @@
+# A2A-Aptos MVP Bidding System - Python 依赖
+
+# Core Aptos SDK
+aptos-sdk>=0.8.0
+
+# Configuration file handling
+PyYAML>=6.0
+
+# HTTP requests for Indexer API
+requests>=2.31.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Better CLI output
+rich>=13.0.0

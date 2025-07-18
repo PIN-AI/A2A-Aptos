@@ -1,0 +1,16 @@
+# Aptos Bidding System - Python 依赖
+
+# Core Aptos SDK
+aptos-sdk>=0.8.0
+
+# Configuration file handling
+PyYAML>=6.0
+
+# Command line interface
+argparse  # Built-in, but listed for reference
+
+# Async support
+asyncio  # Built-in, but listed for reference
+
+# Optional: For better error handling and logging
+rich>=13.0.0

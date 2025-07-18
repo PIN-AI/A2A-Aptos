@@ -1,0 +1,14 @@
+[package]
+name = "aptos_task_manager"
+version = "1.0.0"
+authors = []
+
+[addresses]
+aptos_task_manager = "0x42e86d92f3d8645d290844f96451038efc722940fff706823dd3c0f8f67b46bd"
+
+[dev-addresses]
+
+[dependencies.AptosFramework]
+local = "./framework/aptos-framework"
+
+[dev-dependencies]

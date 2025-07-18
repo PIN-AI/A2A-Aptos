@@ -1,0 +1,10 @@
+.aptos/
+build/
+.venv/
+.claude/
+.cursor/
+.kiro/
+ref/
+issues/
+docs/
+CLAUDE.md
